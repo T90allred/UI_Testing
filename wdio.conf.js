@@ -1,8 +1,9 @@
 const BASE_URL =
-  process.env.SERVER === "prod"
+  process.env.TEST_ENVIRONMENT === "live"
     ? "https://app.jolt.com"
     : "https://stage.joltup.com";
-const timeout = process.env.DEBUG ? 99999999 : 20000;
+const TIMEOUT = 20000;
+const DRIVER_COUNT = process.env.DRIVER_COUNT;
 exports.config = {
   port: '9515',
   path: '/',
@@ -20,6 +21,14 @@ exports.config = {
   exclude: [
     // 'path/to/excluded/files'
   ],
+  suites: {
+    firstGroup: [
+        './test/first/**/*.js',
+    ],
+    secondGroup: [
+      './test/second/**/*.js',
+    ]
+},
   //
   // ============
   // Capabilities
@@ -47,7 +56,7 @@ exports.config = {
       // maxInstances can get overwritten per capability. So if you have an in-house Selenium
       // grid with only 5 firefox instances available you can make sure that not more than
       // 5 instances get started at a time.
-      maxInstances: 5,
+      maxInstances: DRIVER_COUNT,
       //
       browserName: "chrome"
     }
@@ -81,7 +90,7 @@ exports.config = {
   baseUrl: BASE_URL,
   //
   // Default timeout for all waitFor* commands.
-  waitforTimeout: 10000,
+  waitforTimeout: 20000,
   //
   // Default timeout in milliseconds for request
   // if Selenium Grid doesn't send response
@@ -132,7 +141,7 @@ exports.config = {
   // See the full list at http://mochajs.org/
   mochaOpts: {
     ui: "bdd",
-    timeout: timeout
+    timeout: TIMEOUT
   },
   //
   // =====

@@ -1,4 +1,4 @@
-describe("Login Page", function() {
+describe("TEST 1", function() {
   it("login to site", function() {
     browser.url("./");
     let pageTitle = browser.getTitle();
